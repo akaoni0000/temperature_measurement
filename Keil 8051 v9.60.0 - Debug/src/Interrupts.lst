@@ -1,0 +1,91 @@
+C51 COMPILER V9.60.0.0   INTERRUPTS                                                        10/04/2024 18:50:50 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INTERRUPTS
+OBJECT MODULE PLACED IN .\src\Interrupts.OBJ
+COMPILER INVOKED BY: C:\SiliconLabs\SimplicityStudio\v5\developer\toolchains\keil_8051\9.60\BIN\C51.exe C:\Users\Yoshida
+                    -_Lab\SimplicityStudio\v5_workspace\temperature_measurement\src\Interrupts.c OMF2 SMALL DEBUG OBJECTEXTEND ROM(LARGE) WAR
+                    -NINGLEVEL(2) FLOATFUZZY(3) OPTIMIZE(8,SPEED) DEFINE(DEBUG=1) INTVECTOR(0X0000) INTPROMOTE INCDIR(C:\Users\Yoshida_Lab\Si
+                    -mplicityStudio\v5_workspace\temperature_measurement\inc;C:/SiliconLabs/SimplicityStudio/v5/developer/sdks/8051/v4.3.1//D
+                    -evice/shared/si8051Base;C:/SiliconLabs/SimplicityStudio/v5/developer/sdks/8051/v4.3.1//Device/EFM8SB1/inc) PRINT(.\src\I
+                    -nterrupts.lst) COND PAGEWIDTH(120) PAGELENGTH(65) OBJECT(.\src\Interrupts.OBJ)
+
+line level    source
+
+   1          #include <SI_EFM8SB1_Register_Enums.h>
+   2          
+   3          //sbit pin04 = P0^4;
+   4          //sbit pin05 = P0^5;
+   5          extern int send_data[3];
+   6          extern uint8_t max_count;
+   7          extern uint8_t receive_data_first;
+   8          extern uint8_t receive_data_second;
+   9          int send_data_count;
+  10          int receive_data_count;
+  11          
+  12          SI_INTERRUPT(SMBUS0_ISR, SMBUS0_IRQn)
+  13          {
+  14   1        //pin04 = 0;
+  15   1        //pin05 = 0;
+  16   1        switch (SMB0CN0 & 0xF0)
+  17   1        {
+  18   2           case 0xE0://スレイブアドレスを送信
+  19   2              SMB0DAT = send_data[0];
+  20   2              SMB0CN0_STA = 0;
+  21   2              send_data_count = 1;
+  22   2              receive_data_count = 1;
+  23   2              break;
+  24   2      
+  25   2           case 0xC0://データ送信
+  26   2              if(SMB0CN0_ACK && send_data_count<=max_count)
+  27   2              {
+  28   3                  SMB0DAT = send_data[send_data_count];
+  29   3                  send_data_count++;
+  30   3              }
+  31   2              else {
+  32   3                  if(max_count!=0){
+  33   4                      SMB0CN0_STO = 1;
+  34   4                  }
+  35   3              }
+  36   2              break;
+  37   2      
+  38   2           case 0x80:
+  39   2             if (receive_data_count <=1){
+  40   3                  receive_data_first = SMB0DAT;
+  41   3                  SMB0CN0_ACK = 1;
+  42   3                  receive_data_count ++;
+  43   3             }
+  44   2             else {
+  45   3                  receive_data_second = SMB0DAT;
+  46   3                  SMB0CN0_ACK = 0;
+  47   3                  SMB0CN0_STO = 1;
+  48   3             }
+  49   2             break;
+  50   2        }
+  51   1        //pin04 = 1;
+C51 COMPILER V9.60.0.0   INTERRUPTS                                                        10/04/2024 18:50:50 PAGE 2   
+
+  52   1        //pin05 = 1;
+  53   1        SMB0CN0_SI = 0;
+  54   1      }
+  55          
+  56          
+  57          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    136    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
