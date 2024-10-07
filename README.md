@@ -36,6 +36,12 @@ SMB0CN0_STO = 1;でストップコンディションを発動させる
 ![スクリーンショット 2024-10-07 16 15 17](https://github.com/user-attachments/assets/ffbf5a60-a3aa-4a05-aa16-ee8431047c73)
 
 ## 温度センサとのI2C
+### スレイブアドレスについて
+![スクリーンショット 2024-10-07 16 43 52](https://github.com/user-attachments/assets/469a2b81-d893-4e9e-8913-f38bb445b3f3)
+![スクリーンショット 2024-10-07 16 44 11](https://github.com/user-attachments/assets/d84b4135-0112-4fea-b2bc-ff26b5684450)
+
+ADD0をグランドに接続することでスレイブアドレスは0x90（書き込み）0x91（読み込み）になる
+
 ### 温度結果を読み取る方法
 ![スクリーンショット 2024-10-07 16 16 57](https://github.com/user-attachments/assets/fbf3ace5-6698-41f3-be5a-292da62fd1c0)
 
