@@ -68,7 +68,7 @@ smbus2(0x7C, 0x00, 0x01);
 ```
 smbus2(0x7C, 0x00, 0x80);//場所の指定
 ```
-![スクリーンショット 2024-10-07 16 28 05](https://github.com/user-attachments/assets/e23376f1-a2cb-427f-bfc8-689cc9a6ec30)
+![スクリーンショット 2024-10-07 16 28 05](https://github.com/user-attachments/assets/e23376f1-a2cb-427f-bfc8-689cc9a6ec30)<br>
 表示する文字データを送信する 文字データの場合はスレイブアドレスの後に0x40を送信する
 ```
 smbus2(0x7C, 0x40, 0x30);//文字コード 0
