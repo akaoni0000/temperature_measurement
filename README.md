@@ -80,8 +80,9 @@ smbus2(0x7C, 0x00, 0x80);//場所の指定
 ```
 smbus2(0x7C, 0x40, 0x30);//文字コード 0
 ```
-![スクリーンショット 2024-10-07 16 31 10](https://github.com/user-attachments/assets/afff2ac7-f436-4241-b805-469ca77a8095)
-
+![スクリーンショット 2024-10-07 16 31 10](https://github.com/user-attachments/assets/afff2ac7-f436-4241-b805-469ca77a8095)<br>
+### 参考
+![Uploading スクリーンショット 2024-10-07 16.49.45.png…]()
 
 
 
