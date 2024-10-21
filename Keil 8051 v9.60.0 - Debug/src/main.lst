@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              10/04/2024 19:08:51 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              10/21/2024 20:59:46 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -63,7 +63,7 @@ line level    source
   49   1        send_data[0] = slave;
   50   1        send_data[1] = send_data1;
   51   1        max_count = 1;
-C51 COMPILER V9.60.0.0   MAIN                                                              10/04/2024 19:08:51 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              10/21/2024 20:59:46 PAGE 2   
 
   52   1        SMB0CN0_STA = 1;
   53   1        delay_ms(10);
@@ -83,62 +83,63 @@ line level    source
   67   1        smbus2(0x7C, 0x00, 0x38);
   68   1        smbus2(0x7C, 0x00, 0x39);
   69   1        smbus2(0x7C, 0x00, 0x14);
-  70   1        smbus2(0x7C, 0x00, 0x53);
-  71   1        smbus2(0x7C, 0x00, 0x73);
+  70   1        smbus2(0x7C, 0x00, 0x73);
+  71   1        smbus2(0x7C, 0x00, 0x56);
   72   1        smbus2(0x7C, 0x00, 0x6C);
-  73   1        smbus2(0x7C, 0x00, 0x0C);
+  73   1        smbus2(0x7C, 0x00, 0x38);
   74   1        smbus2(0x7C, 0x00, 0x01);
-  75   1      }
-  76          
-  77          void LCD_Data(){
-  78   1        smbus2(0x7C, 0x00, 0x80);//場所の指定
-  79   1        for(i = 7; i >= 0; i--) {
-  80   2            char receive_data_bit =(receive_data_first>>i) & 1;
-  81   2            if(receive_data_bit == 0){
-  82   3                smbus2(0x7C, 0x40, 0x30);//文字コード 0
-  83   3            }
-  84   2            else{
-  85   3                smbus2(0x7C, 0x40, 0x31);//文字コード 1
-  86   3            }
-  87   2        }
-  88   1      
-  89   1        for(i = 7; i >= 0; i--) {
-  90   2            char receive_data_bit =(receive_data_second>>i) & 1;
-  91   2            if(receive_data_bit == 0){
-  92   3                smbus2(0x7C, 0x40, 0x30);//文字コード
-  93   3            }
-  94   2            else{
-  95   3                smbus2(0x7C, 0x40, 0x31);//文字コード
-  96   3            }
-  97   2         }
-  98   1      }
-  99          
- 100          void delay_ms (ms)
- 101          {
- 102   1         TCON &= ~0x30;                      // Stop Timer0; Clear TCON_TF0
- 103   1         TMOD &= ~0x0f;                      // 16-bit free run mode
- 104   1         TMOD |=  0x01;
- 105   1      
- 106   1         CKCON0 |= 0x04;                      // Timer0 counts SYSCLKs
- 107   1      
- 108   1         while (ms) {
- 109   2            TCON_TR0 = 0;                         // Stop Timer0
- 110   2            TH0 = ((-24500000/1000) >> 8);     // Overflow in 1ms
- 111   2            TL0 = ((-24500000/1000) & 0xFF);
- 112   2            TCON_TF0 = 0;                         // Clear overflow indicator
- 113   2            TCON_TR0 = 1;                         // Start Timer0
- 114   2            while (!TCON_TF0);                    // Wait for overflow
-C51 COMPILER V9.60.0.0   MAIN                                                              10/04/2024 19:08:51 PAGE 3   
+  75   1        smbus2(0x7C, 0x00, 0x0C);
+  76   1      }
+  77          
+  78          void LCD_Data(){
+  79   1        smbus2(0x7C, 0x00, 0x80);//場所の指定
+  80   1        for(i = 7; i >= 0; i--) {
+  81   2            char receive_data_bit =(receive_data_first>>i) & 1;
+  82   2            if(receive_data_bit == 0){
+  83   3                smbus2(0x7C, 0x40, 0x30);//文字コード 0
+  84   3            }
+  85   2            else{
+  86   3                smbus2(0x7C, 0x40, 0x31);//文字コード 1
+  87   3            }
+  88   2        }
+  89   1      
+  90   1        for(i = 7; i >= 0; i--) {
+  91   2            char receive_data_bit =(receive_data_second>>i) & 1;
+  92   2            if(receive_data_bit == 0){
+  93   3                smbus2(0x7C, 0x40, 0x30);//文字コード
+  94   3            }
+  95   2            else{
+  96   3                smbus2(0x7C, 0x40, 0x31);//文字コード
+  97   3            }
+  98   2         }
+  99   1      }
+ 100          
+ 101          void delay_ms (ms)
+ 102          {
+ 103   1         TCON &= ~0x30;                      // Stop Timer0; Clear TCON_TF0
+ 104   1         TMOD &= ~0x0f;                      // 16-bit free run mode
+ 105   1         TMOD |=  0x01;
+ 106   1      
+ 107   1         CKCON0 |= 0x04;                      // Timer0 counts SYSCLKs
+ 108   1      
+ 109   1         while (ms) {
+ 110   2            TCON_TR0 = 0;                         // Stop Timer0
+ 111   2            TH0 = ((-24500000/1000) >> 8);     // Overflow in 1ms
+ 112   2            TL0 = ((-24500000/1000) & 0xFF);
+ 113   2            TCON_TF0 = 0;                         // Clear overflow indicator
+ 114   2            TCON_TR0 = 1;                         // Start Timer0
+C51 COMPILER V9.60.0.0   MAIN                                                              10/21/2024 20:59:46 PAGE 3   
 
- 115   2            ms--;                            // Update ms counter
- 116   2         }
- 117   1      
- 118   1         TCON_TR0 = 0;                            // Stop Timer0
- 119   1      }
+ 115   2            while (!TCON_TF0);                    // Wait for overflow
+ 116   2            ms--;                            // Update ms counter
+ 117   2         }
+ 118   1      
+ 119   1         TCON_TR0 = 0;                            // Stop Timer0
+ 120   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    339    ----
+   CODE SIZE        =    342    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
